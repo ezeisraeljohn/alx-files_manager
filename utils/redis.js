@@ -2,19 +2,24 @@
 // Used by: utils/cache.js
 // Dependencies: redis
 
-const redis = require("redis");
+const { createClient } = require("redis");
 
 class RedisClient {
   constructor() {
-    this.client = redis
-      .createClient()
-      .on("error", (error) => {
-        console.log(error);
-      })
-      .connect();
+    this.client = createClient();
+    this._isAlive = true;
+
+    this.client.on("error", (error) => {
+      console.error(`${error}`);
+      this._isAlive = false;
+    });
+
+    this.client.on("connect", () => {
+      this._isAlive = true;
+    });
   }
   isAlive() {
-    return this.client.isReady;
+    return this._isAlive;
   }
   async get(key) {
     return new Promise((resolve, reject) => {
