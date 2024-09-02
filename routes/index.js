@@ -5,3 +5,5 @@ const router = Router();
 
 router.get("/status", status);
 router.get("/stats", stats);
+
+module.exports = router;
