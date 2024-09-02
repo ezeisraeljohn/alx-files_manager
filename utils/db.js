@@ -1,13 +1,13 @@
 // MongoDB connection
 
-const { MongoClient } = require('mongodb');
+const { MongoClient } = require("mongodb");
 class DBClient {
-  constructor () {
+  constructor() {
     this.client = null;
     this.db = null;
-    this.host = process.env.DB_HOST || 'localhost';
+    this.host = process.env.DB_HOST || "localhost";
     this.port = process.env.DB_PORT || 27017;
-    this.database = process.env.DB_DATABASE || 'files_manager';
+    this.database = process.env.DB_DATABASE || "files_manager";
     this.url = `mongodb://${this.host}:${this.port}`;
     MongoClient.connect(
       this.url,
@@ -24,17 +24,17 @@ class DBClient {
     );
   }
 
-  isAlive () {
+  isAlive() {
     if (this.db) return true;
     return false;
   }
 
-  async nbUsers () {
-    return this.db.collection('users').countDocuments();
+  async nbUsers() {
+    return this.db.collection("users").countDocuments();
   }
 
-  async nbFiles () {
-    return this.db.collection('files').countDocuments();
+  async nbFiles() {
+    return this.db.collection("files").countDocuments();
   }
 }
 
