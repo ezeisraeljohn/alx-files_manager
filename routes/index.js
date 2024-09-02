@@ -1,9 +1,9 @@
-import { status, stats } from "../controllers/AppControllers";
+import { getStatus, getStats } from "../controllers/AppController";
 const { Router } = require("express");
 
 const router = Router();
 
-router.get("/status", status);
-router.get("/stats", stats);
+router.get("/status", getStatus);
+router.get("/stats", getStats);
 
 module.exports = router;
