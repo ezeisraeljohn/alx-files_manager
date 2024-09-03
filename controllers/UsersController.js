@@ -21,6 +21,7 @@ export const postNew = async (req, res) => {
   if (!result) return res.status(500).json({ error: "Error inserting" });
 
   delete result.ops[0].password;
-
+  result.ops[0].id = result.ops[0]._id;
+  delete result.ops[0]._id;
   return res.status(201).json(result.ops[0]);
 };
