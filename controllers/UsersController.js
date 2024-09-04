@@ -2,6 +2,7 @@ import { json } from "express";
 import dbClient from "../utils/db";
 import redisClient from "../utils/redis";
 const sha1 = require("sha1");
+import { ObjectId } from "mongodb";
 
 export const postNew = async (req, res) => {
   const { email, password } = req.body;
@@ -35,11 +36,14 @@ export const getMe = async (req, res) => {
   const key = `auth_${token}`;
   const userId = await redisClient.get(key);
   if (!userId) return res.status(401).json({ error: "Unauthorized" });
-  res.json({ userId });
+  const user = await dbClient.db
+    .collection("users")
+    .findOne({ _id: ObjectId(userId) });
 
-  const user = await dbClient.db.collection("users").findOne({ _id: userId });
   if (!user) return res.status(401).json({ error: "Unauthorized" });
 
   delete user.password;
+  user.id = user._id;
+  delete user._id;
   return res.status(200).json(user);
 };
