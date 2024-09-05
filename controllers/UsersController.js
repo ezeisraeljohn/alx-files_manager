@@ -1,4 +1,3 @@
-import { json } from "express";
 import dbClient from "../utils/db";
 import redisClient from "../utils/redis";
 const sha1 = require("sha1");
